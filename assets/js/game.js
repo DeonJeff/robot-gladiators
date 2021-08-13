@@ -22,14 +22,14 @@ var fight = function(enemyName) {
       if (confirmSkip) {
         window.alert(playerName + ' has decided to skip this fight. Goodbye!');
         // subtract money from playerMoney for skipping
-        playerMoney = playerMoney - 10;
+        playerMoney = Math.max(0, playerMoney - 10);
         console.log("playerMoney", playerMoney)
         break;
       }
     }
 
     // remove enemy's health by subtracting the amount set in the playerAttack variable
-    enemyHealth = enemyHealth - playerAttack;
+    enemyHealth = Math.max(0, enemyHealth - playerAttack);
     console.log(
       playerName + ' attacked ' + enemyName + '. ' + enemyName + ' now has ' + enemyHealth + ' health remaining.'
     );
@@ -48,7 +48,7 @@ var fight = function(enemyName) {
     }
 
     // remove players's health by subtracting the amount set in the enemyAttack variable
-    playerHealth = playerHealth - enemyAttack;
+    playerHealth = Math.max(0, playerHealth - enemyAttack);
     console.log(
       enemyName + ' attacked ' + playerName + '. ' + playerName + ' now has ' + playerHealth + ' health remaining.'
     );
@@ -73,6 +73,12 @@ var startGame = function() {
 
   // fight each enemy robot by looping over them and fighting them one at a time
   for (var i = 0; i < enemyNames.length; i++) {
+     ...
+  }
+
+   // after the loop ends, player is either out of health or enemies to fight, so run the endGame function
+   endGame();
+  }
     // if player is still alive, keep fighting
     if (playerHealth > 0) {
       // let player know what round they are in, remember that arrays start at 0 so it needs to have 1 added to it
@@ -82,7 +88,7 @@ var startGame = function() {
       var pickedEnemyName = enemyNames[i];
 
       // reset enemyHealth before starting new fight
-      enemyHealth = 50;
+      enemyHealth = Math.floor(Math.random() * 21) + 40;
 
       // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
       fight(pickedEnemyName);
@@ -111,7 +117,26 @@ var startGame = function() {
 
 // function to end the entire game
 var endGame = function() {
-  window.alert("The game has now ended. Let's see how you did!");
+  // if player is still alive, player wins!
+  if (playerHealth > 0) {
+    window.alert("Great job, you've survived the game! You now have a score of " + playerMoney + ".");
+  } 
+  else {
+    window.alert("You've lost your robot in battle.");
+  }
+}
+
+// ask player if they'd like to play again
+var playAgainConfirm = window.confirm("Would you like to play again?");
+
+if (playAgainConfirm) {
+  // restart the game
+  startGame();
+} 
+else {
+  window.alert("Thank you for playing Robot Gladiators! Come back soon!");
+}
+
 
   // if player is still alive, player wins!
   if (playerHealth > 0) {
@@ -178,11 +203,25 @@ var shop = function() {
       shop();
       break;
   }
+
+  // function to generate a random numeric value
+var randomNumber = function() {
+  var value = Math.floor(Math.random() * 21) + 40;
+
+  return value;
+};
+
 };
 
 // start first game when page loads
 startGame();
   
-  
+// prints 3.141592653589793
+console.log(Math.PI);
 
+ // rounds to the nearest whole number (4)
+console.log(Math.round(4.4));
+
+ // prints the square root (5)
+console.log(Math.sqrt(25));
 
